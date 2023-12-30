@@ -22,6 +22,9 @@ make run
 
 ```
 
+![Screenshot from 2023-12-30 18-25-18](https://github.com/matiasdev30/go_full_api/assets/50122963/6bf870f7-76f5-4aa0-972c-ea962bfa097a)
+
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
