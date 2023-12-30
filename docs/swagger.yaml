@@ -1,0 +1,189 @@
+definitions:
+  handlers.LoginResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/handlers.UserResponse'
+    type: object
+  handlers.UserResponse:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phoneNumber:
+        type: integer
+    required:
+    - email
+    - name
+    - password
+    type: object
+  models.Login:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.TaskUpdateRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authentication user
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+      summary: Login
+      tags:
+      - Login
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register new user
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UserResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UserResponse'
+      summary: Register user
+      tags:
+      - Register
+  /task/createTask:
+    post:
+      consumes:
+      - application/json
+      description: Endpoint for create task
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaskUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TaskUpdateRequest'
+      security:
+      - Bearer: []
+      summary: Create task for works
+      tags:
+      - CreateTask
+  /task/deleteTask:
+    delete:
+      consumes:
+      - application/json
+      description: Endpoint for delete task
+      parameters:
+      - description: Task identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TaskUpdateRequest'
+      security:
+      - Bearer: []
+      summary: Delete task
+      tags:
+      - DeleteTask
+  /task/getTasks:
+    get:
+      consumes:
+      - application/json
+      description: Endpoint for list task
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TaskUpdateRequest'
+            type: array
+      security:
+      - Bearer: []
+      summary: List all tasks
+      tags:
+      - GetTasks
+  /task/updateTask:
+    put:
+      consumes:
+      - application/json
+      description: Endpoint for delete task
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaskUpdateRequest'
+      - description: Task identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TaskUpdateRequest'
+      security:
+      - Bearer: []
+      summary: Update task
+      tags:
+      - UpdateTask
+securityDefinitions:
+  Bearer:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
